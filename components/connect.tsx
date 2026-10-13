@@ -1,57 +1,54 @@
-"use client";
-
-import { useState } from "react";
 import { site } from "@/lib/content";
 
 const items = [
   {
     title: "Email",
-    content: <a href={`mailto:${site.email}`}>{site.email}</a>,
+    href: `mailto:${site.email}`,
+    label: site.email,
   },
   {
     title: "Phone",
-    content: <a href={site.phoneHref}>{site.phone}</a>,
+    href: site.phoneHref,
+    label: site.phone,
   },
   {
     title: "LinkedIn",
-    content: (
-      <a href={site.linkedin} target="_blank" rel="noopener noreferrer">
-        {site.linkedin}
-      </a>
-    ),
+    href: site.linkedin,
+    label: site.linkedinLabel,
+    external: true,
   },
 ];
 
 export function Connect() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
   return (
     <section className="connect-section">
       <div className="connect-inner">
         <h2>Let&apos;s connect</h2>
         <div className="accordion">
-          {items.map((item, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div
-                key={item.title}
-                className={`accordion-item ${isOpen ? "open" : ""}`}
-              >
-                <button
-                  type="button"
-                  className="accordion-trigger"
-                  aria-expanded={isOpen}
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
+          {items.map((item, index) => (
+            <details
+              key={item.title}
+              className="accordion-item"
+              open={index === 0}
+            >
+              <summary className="accordion-trigger">
+                <span>{item.title}</span>
+                <span className="accordion-icon" aria-hidden>
+                  +
+                </span>
+              </summary>
+              <div className="accordion-panel">
+                <a
+                  href={item.href}
+                  {...(item.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                 >
-                  <span>{item.title}</span>
-                  <span className="accordion-icon" aria-hidden>
-                    {isOpen ? "−" : "+"}
-                  </span>
-                </button>
-                {isOpen && <div className="accordion-panel">{item.content}</div>}
+                  {item.label}
+                </a>
               </div>
-            );
-          })}
+            </details>
+          ))}
         </div>
       </div>
     </section>
