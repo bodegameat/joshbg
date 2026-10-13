@@ -13,11 +13,8 @@ const links = [
 export function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const onDark =
-    pathname.startsWith("/portfolio") || pathname.startsWith("/contact");
-
   return (
-    <header className={`site-header ${onDark ? "site-header-dark" : ""}`}>
+    <header className="site-header">
       <div className="site-header-inner">
         <Link href="/" className="site-title" onClick={() => setOpen(false)}>
           {site.name}

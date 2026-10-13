@@ -4,6 +4,8 @@ import { Connect } from "@/components/connect";
 import { site } from "@/lib/content";
 
 export default function Home() {
+  const marquee = [...site.clients, ...site.clients];
+
   return (
     <>
       <section className="home-hero">
@@ -26,17 +28,17 @@ export default function Home() {
             src={site.heroImage}
             alt={site.name}
             width={1080}
-            height={1080}
+            height={1350}
             priority
           />
         </div>
       </section>
 
-      <div className="client-strip">
+      <div className="client-strip" aria-label="Selected brands">
         <p>Selected brands</p>
         <ul>
-          {site.clients.map((client) => (
-            <li key={client}>{client}</li>
+          {marquee.map((client, index) => (
+            <li key={`${client}-${index}`}>{client}</li>
           ))}
         </ul>
       </div>
