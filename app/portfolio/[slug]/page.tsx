@@ -7,6 +7,7 @@ import {
   getAdjacentProjects,
   getProject,
   projects,
+  type ProjectVideo,
 } from "@/lib/content";
 
 type Props = {
@@ -26,98 +27,82 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: project.title };
 }
 
+function gridClass(videos: ProjectVideo[]) {
+  if (videos.length === 0) return "work-grid-landscape";
+  const avg =
+    videos.reduce((sum, v) => sum + v.aspect, 0) / Math.max(videos.length, 1);
+  if (avg < 0.95) return "work-grid-vertical";
+  if (avg <= 1.15) return "work-grid-square";
+  return "work-grid-landscape";
+}
+
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
 
   const { prev, next } = getAdjacentProjects(slug);
-  const useVideoGrid = project.videos.some((v) => v.aspect <= 1.1);
+  const videoGrid = gridClass(project.videos);
+  const galleryGrid =
+    project.gallery.length > 2 ? "work-grid-square" : "work-grid-landscape";
 
   return (
     <main className="project-page">
-      {project.role && (
-        <p className="project-meta">
-          {project.title} · Role: {project.role}
-        </p>
-      )}
+      <div className="project-layout">
+        <aside className="project-rail">
+          {project.role && <p className="role">{project.role}</p>}
+          <h1>{project.title}</h1>
+          {project.headline && project.headline !== "Selected work" && (
+            <p className="headline">{project.headline}</p>
+          )}
+          {project.summary && <p className="summary">{project.summary}</p>}
+          {project.focus && project.focus.length > 0 && (
+            <div className="focus-tags">
+              {project.focus.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+          )}
+          <nav className="project-nav" aria-label="Project pagination">
+            <Link href="/portfolio">← All work</Link>
+            {prev && <Link href={`/portfolio/${prev.slug}`}>Prev: {prev.title}</Link>}
+            {next && <Link href={`/portfolio/${next.slug}`}>Next: {next.title}</Link>}
+          </nav>
+        </aside>
 
-      <h1>{project.title}</h1>
+        <div className="project-stage">
+          {project.videos.length > 0 && (
+            <div className={`work-grid ${videoGrid}`}>
+              {project.videos.map((video, index) => (
+                <div key={`${video.src}-${index}`} className="work-item">
+                  <VideoEmbed
+                    src={video.src}
+                    type={video.type}
+                    aspect={video.aspect}
+                    title={`${project.title} ${index + 1}`}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
 
-      {project.headline && project.headline !== project.title && (
-        <p className="headline">{project.headline}</p>
-      )}
-
-      <div className="project-cover">
-        <Image
-          src={project.cover}
-          alt={project.title}
-          width={1600}
-          height={1000}
-          priority
-        />
+          {project.gallery.length > 0 && (
+            <div className={`work-grid ${galleryGrid}`}>
+              {project.gallery.map((src) => (
+                <div key={src} className="work-item">
+                  <Image
+                    src={src}
+                    alt=""
+                    width={1200}
+                    height={1200}
+                    sizes="(max-width: 900px) 100vw, 40vw"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-
-      {project.paragraphs.map((p) => (
-        <p key={p.slice(0, 40)} className="body">
-          {p}
-        </p>
-      ))}
-
-      {project.sections?.map((section) => (
-        <section key={section.title} className="project-section">
-          <h2>{section.title}</h2>
-          <p className="body">{section.body}</p>
-        </section>
-      ))}
-
-      {project.videos.length > 0 && (
-        <div
-          className={`project-videos ${useVideoGrid ? "project-videos-mixed" : ""}`}
-        >
-          {project.videos.map((video, index) => (
-            <VideoEmbed
-              key={`${video.src}-${index}`}
-              src={video.src}
-              type={video.type}
-              aspect={video.aspect}
-              title={`${project.title} video ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
-
-      {project.gallery.length > 0 && (
-        <div className="project-gallery">
-          {project.gallery.map((src) => (
-            <Image
-              key={src}
-              src={src}
-              alt=""
-              width={1080}
-              height={1080}
-              sizes="(max-width: 767px) 100vw, 33vw"
-            />
-          ))}
-        </div>
-      )}
-
-      <nav className="project-nav" aria-label="Project pagination">
-        <div>
-          {prev ? (
-            <Link href={`/portfolio/${prev.slug}`}>← {prev.title}</Link>
-          ) : (
-            <span />
-          )}
-        </div>
-        <div>
-          {next ? (
-            <Link href={`/portfolio/${next.slug}`}>{next.title} →</Link>
-          ) : (
-            <span />
-          )}
-        </div>
-      </nav>
     </main>
   );
 }

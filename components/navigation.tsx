@@ -6,16 +6,18 @@ import { useState } from "react";
 import { site } from "@/lib/content";
 
 const links = [
-  { name: "Portfolio", href: "/portfolio" },
+  { name: "Work", href: "/portfolio" },
   { name: "Contact", href: "/contact" },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const onDark =
+    pathname.startsWith("/portfolio") || pathname.startsWith("/contact");
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${onDark ? "site-header-dark" : ""}`}>
       <div className="site-header-inner">
         <Link href="/" className="site-title" onClick={() => setOpen(false)}>
           {site.name}

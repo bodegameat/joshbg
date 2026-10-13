@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="contact-page">
-      <div>
-        <h1>Let&apos;s connect!</h1>
+      <div className="inner">
+        <h1>Let&apos;s talk.</h1>
         <div className="contact-details">
           <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={site.phoneHref}>{site.phone}</a>

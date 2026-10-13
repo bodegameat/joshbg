@@ -28,7 +28,7 @@ export function Connect() {
   return (
     <section className="connect-section">
       <div className="connect-inner">
-        <h2>Let&apos;s Connect</h2>
+        <h2>Let&apos;s connect</h2>
         <div className="accordion">
           {items.map((item, index) => {
             const isOpen = openIndex === index;

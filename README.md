@@ -1,15 +1,17 @@
 # Josh Bryant-Gainer
 
-Personal site for [joshbg.com](https://www.joshbg.com) — Creative Director & Performance Strategist.
+Personal site for [joshbg.com](https://www.joshbg.com) — growth & performance creative.
 
-Migrated from Squarespace to a self-hosted Next.js site for Netlify.
+Migrated from Squarespace. Built for Netlify.
 
-## Pages
+## What’s here
 
-- `/` — Home (bio, portrait, See the Work, contact accordion)
-- `/portfolio` — Project grid
-- `/portfolio/[slug]` — Case studies (Truebill, Aspiration, MoneyLion, Milk Bar, Zarbee's, Flamingo, Candid, Burt's Bees, Milk Street, Harry's)
-- `/contact` — Contact details
+- `/` — Positioning, selected brands, reel, contact
+- `/portfolio` — Work grid
+- `/portfolio/[slug]` — Short case intros + creative showcase (Vimeo / video / stills)
+- `/contact`
+
+Case pages stay light on copy (older clients) and lead with the work.
 
 ## Run locally
 
@@ -18,15 +20,9 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
 ## Deploy (Netlify)
 
-Connected GitHub → Netlify. Build uses `@netlify/plugin-nextjs` via `netlify.toml`.
+`netlify.toml` uses `@netlify/plugin-nextjs`.
 
-- Build command: `npm run build`
+- Build: `npm run build`
 - Node: 20
-
-## Content source
-
-Copy and images were taken from the live Squarespace site / WordPress XML export. Project pages that were empty on Squarespace (Burt's Bees, Milk Street, Harry's) remain title/cover-only here.
