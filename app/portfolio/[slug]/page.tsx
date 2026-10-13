@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { VideoEmbed } from "@/components/video-embed";
 import {
   getAdjacentProjects,
   getProject,
@@ -29,6 +30,7 @@ export default async function ProjectPage({ params }: Props) {
   if (!project) notFound();
 
   const { prev, next } = getAdjacentProjects(slug);
+  const useVideoGrid = project.videos.some((v) => v.aspect <= 1.1);
 
   return (
     <main className="project-page">
@@ -66,6 +68,22 @@ export default async function ProjectPage({ params }: Props) {
           <p className="body">{section.body}</p>
         </section>
       ))}
+
+      {project.videos.length > 0 && (
+        <div
+          className={`project-videos ${useVideoGrid ? "project-videos-mixed" : ""}`}
+        >
+          {project.videos.map((video, index) => (
+            <VideoEmbed
+              key={`${video.src}-${index}`}
+              src={video.src}
+              type={video.type}
+              aspect={video.aspect}
+              title={`${project.title} video ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
       {project.gallery.length > 0 && (
         <div className="project-gallery">

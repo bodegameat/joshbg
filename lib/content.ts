@@ -1,3 +1,9 @@
+export type ProjectVideo = {
+  type: "vimeo" | "youtube" | "file";
+  src: string;
+  aspect: number;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -6,6 +12,7 @@ export type Project = {
   paragraphs: string[];
   cover: string;
   gallery: string[];
+  videos: ProjectVideo[];
   sections?: { title: string; body: string }[];
 };
 
@@ -31,6 +38,11 @@ export const projects: Project[] = [
     ],
     cover: "/images/portfolio/truebill.png",
     gallery: [],
+    videos: [
+      { type: "vimeo", src: "https://player.vimeo.com/video/697955485?h=30df306206", aspect: 16 / 9 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/499444597?h=3a77ce1693", aspect: 16 / 9 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/684474731?h=a11df45e3c", aspect: 16 / 9 },
+    ],
   },
   {
     slug: "aspiration",
@@ -43,6 +55,12 @@ export const projects: Project[] = [
     ],
     cover: "/images/portfolio/aspiration.jpg",
     gallery: [],
+    videos: [
+      { type: "vimeo", src: "https://player.vimeo.com/video/675498806?h=c6752c8aac", aspect: 16 / 9 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/683503431?h=c9b0549010", aspect: 0.8 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/683504831?h=1772625836", aspect: 16 / 9 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/683505748?h=3d466ffc85", aspect: 16 / 9 },
+    ],
   },
   {
     slug: "moneylion",
@@ -54,6 +72,13 @@ export const projects: Project[] = [
     ],
     cover: "/images/portfolio/moneylion.png",
     gallery: [],
+    videos: [
+      { type: "file", src: "/videos/projects/moneylion/01.mp4", aspect: 9 / 16 },
+      { type: "file", src: "/videos/projects/moneylion/02.mp4", aspect: 9 / 16 },
+      { type: "file", src: "/videos/projects/moneylion/03.mp4", aspect: 9 / 16 },
+      { type: "file", src: "/videos/projects/moneylion/04.mp4", aspect: 1080 / 1350 },
+      { type: "file", src: "/videos/projects/moneylion/05.mp4", aspect: 1080 / 1350 },
+    ],
   },
   {
     slug: "milk-bar",
@@ -70,6 +95,10 @@ export const projects: Project[] = [
       "/images/projects/milk-bar/03.jpg",
       "/images/projects/milk-bar/04.jpg",
     ],
+    videos: [
+      { type: "vimeo", src: "https://player.vimeo.com/video/697941246?h=e8b364f09b", aspect: 1 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/697941225?h=7ff7bc0f41", aspect: 1 },
+    ],
   },
   {
     slug: "zarbees-naturals",
@@ -85,6 +114,11 @@ export const projects: Project[] = [
       "/images/projects/zarbees-naturals/04.jpg",
       "/images/projects/zarbees-naturals/05.jpg",
       "/images/projects/zarbees-naturals/06.jpg",
+    ],
+    videos: [
+      { type: "youtube", src: "https://www.youtube.com/embed/Pms0pzK3nX0", aspect: 16 / 9 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/443165040?h=a857ba15f9", aspect: 16 / 9 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/443165070?h=a9f42f657c", aspect: 16 / 9 },
     ],
     sections: [
       {
@@ -107,6 +141,14 @@ export const projects: Project[] = [
     ],
     cover: "/images/portfolio/flamingo.jpg",
     gallery: [],
+    videos: [
+      { type: "vimeo", src: "https://player.vimeo.com/video/697951980?h=301d17f6dd", aspect: 0.8 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/697952027?h=eb2548270e", aspect: 0.8 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/697951907?h=bb3487dcc9", aspect: 0.8 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/697952057?h=52aada16ae", aspect: 0.8 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/697952097?h=80b534ac09", aspect: 0.8 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/697951960?h=0a9f7ac606", aspect: 0.8 },
+    ],
   },
   {
     slug: "candid",
@@ -126,6 +168,10 @@ export const projects: Project[] = [
       "/images/projects/candid/06.jpg",
       "/images/projects/candid/07.png",
     ],
+    videos: [
+      { type: "vimeo", src: "https://player.vimeo.com/video/684477437?h=4f7d3e1140", aspect: 16 / 9 },
+      { type: "vimeo", src: "https://player.vimeo.com/video/684477668?h=a5d0f848a3", aspect: 16 / 9 },
+    ],
   },
   {
     slug: "burts-bees",
@@ -133,6 +179,11 @@ export const projects: Project[] = [
     paragraphs: [],
     cover: "/images/portfolio/burts-bees.png",
     gallery: [],
+    videos: [
+      { type: "file", src: "/videos/projects/burts-bees/01.mp4", aspect: 1 },
+      { type: "file", src: "/videos/projects/burts-bees/02.mp4", aspect: 1 },
+      { type: "file", src: "/videos/projects/burts-bees/03.mp4", aspect: 1 },
+    ],
   },
   {
     slug: "milk-street",
@@ -140,6 +191,10 @@ export const projects: Project[] = [
     paragraphs: [],
     cover: "/images/portfolio/milk-street.jpg",
     gallery: [],
+    videos: [
+      { type: "file", src: "/videos/projects/milk-street/01.mp4", aspect: 16 / 9 },
+      { type: "file", src: "/videos/projects/milk-street/02.mp4", aspect: 16 / 9 },
+    ],
   },
   {
     slug: "harrys",
@@ -148,6 +203,10 @@ export const projects: Project[] = [
     paragraphs: [],
     cover: "/images/portfolio/harrys.jpg",
     gallery: [],
+    videos: [
+      { type: "file", src: "/videos/projects/harrys/01.mp4", aspect: 9 / 16 },
+      { type: "file", src: "/videos/projects/harrys/02.mp4", aspect: 9 / 16 },
+    ],
   },
 ];
 
