@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
+import { site } from "@/lib/content";
 
-const inter = Inter({
+const poppins = Poppins({
   variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Josh Bryant-Gainer | Creative Director & Performance Strategist",
-  description: "Brooklyn-based Creative Director & Performance Strategist helping high-growth companies scale digital channels while staying true to their brand.",
+  title: {
+    default: site.name,
+    template: `%s — ${site.name}`,
+  },
+  description: site.bio,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
-      <body className="min-h-screen bg-white">
+    <html lang="en" className={`${poppins.variable} antialiased`}>
+      <body>
         <Navigation />
-        <main className="pt-16">{children}</main>
+        {children}
       </body>
     </html>
   );

@@ -2,42 +2,64 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { site } from "@/lib/content";
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Work", href: "/work" },
+const links = [
+  { name: "Portfolio", href: "/portfolio" },
   { name: "Contact", href: "/contact" },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold text-gray-900">
-            Josh Bryant-Gainer
-          </Link>
-          <div className="flex gap-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-gray-900",
-                  pathname === item.href
-                    ? "text-gray-900"
-                    : "text-gray-600"
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-        </div>
+    <header className="site-header">
+      <div className="site-header-inner">
+        <Link href="/" className="site-title" onClick={() => setOpen(false)}>
+          {site.name}
+        </Link>
+
+        <nav className="site-nav desktop-nav" aria-label="Main">
+          {links.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={pathname.startsWith(item.href) ? "active" : undefined}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-label={open ? "Close Menu" : "Open Menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
-    </nav>
+
+      {open && (
+        <nav className="mobile-nav" aria-label="Mobile">
+          {links.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className={pathname.startsWith(item.href) ? "active" : undefined}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+      )}
+    </header>
   );
 }

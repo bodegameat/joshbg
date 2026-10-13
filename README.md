@@ -1,78 +1,32 @@
-# Josh Bryant-Gainer Portfolio
+# Josh Bryant-Gainer
 
-Personal portfolio website for Josh Bryant-Gainer, a Brooklyn-based Creative Director & Performance Strategist.
+Personal site for [joshbg.com](https://www.joshbg.com) — Creative Director & Performance Strategist.
 
-## About
+Migrated from Squarespace to a self-hosted Next.js site for Netlify.
 
-This website showcases Josh's work in helping high-growth companies scale digital channels while staying true to their brand. The site features:
+## Pages
 
-- **Home**: Introduction and overview of services
-- **Work**: Details about performance creative production approach
-- **Contact**: Direct contact information and social links
+- `/` — Home (bio, portrait, See the Work, contact accordion)
+- `/portfolio` — Project grid
+- `/portfolio/[slug]` — Case studies (Truebill, Aspiration, MoneyLion, Milk Bar, Zarbee's, Flamingo, Candid, Burt's Bees, Milk Street, Harry's)
+- `/contact` — Contact details
 
-## Tech Stack
-
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Font**: Inter (Google Fonts)
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
+## Run locally
 
 ```bash
 npm install
-```
-
-### Development
-
-Run the development server:
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the site.
+Open [http://localhost:3000](http://localhost:3000).
 
-### Build
+## Deploy (Netlify)
 
-Create a production build:
+Connected GitHub → Netlify. Build uses `@netlify/plugin-nextjs` via `netlify.toml`.
 
-```bash
-npm run build
-```
+- Build command: `npm run build`
+- Node: 20
 
-### Production
+## Content source
 
-Start the production server:
-
-```bash
-npm start
-```
-
-## Deployment
-
-This site is configured for deployment on Netlify. Simply connect your GitHub repository to Netlify and it will automatically deploy on every push to the main branch.
-
-### Build Settings for Netlify
-
-- **Build command**: `npm run build`
-- **Publish directory**: `.next`
-- **Node version**: 18+
-
-## Contact
-
-- **Email**: joshuabryantgainer@gmail.com
-- **Phone**: (304) 279-6645
-- **LinkedIn**: [linkedin.com/in/joshuabg](https://www.linkedin.com/in/joshuabg/)
-
-## License
-
-© 2026 Josh Bryant-Gainer. All rights reserved.
+Copy and images were taken from the live Squarespace site / WordPress XML export. Project pages that were empty on Squarespace (Burt's Bees, Milk Street, Harry's) remain title/cover-only here.
