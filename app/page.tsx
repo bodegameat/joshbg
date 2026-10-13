@@ -1,65 +1,26 @@
-import Image from "next/image";
-import Link from "next/link";
 import { Connect } from "@/components/connect";
+import { WorkGrid } from "@/components/work-grid";
 import { site } from "@/lib/content";
 
 export default function Home() {
-  const marquee = [...site.clients, ...site.clients];
-
   return (
     <>
-      <section className="home-hero">
-        <div className="home-copy">
-          <p className="eyebrow rise">{site.role}</p>
-          <h1 className="brand rise rise-delay-1">{site.name}</h1>
-          <p className="line rise rise-delay-2">{site.line}</p>
-          <p className="bio rise rise-delay-2">{site.bio}</p>
-          <div className="home-actions rise rise-delay-3">
-            <Link href="/portfolio" className="btn-pill btn-solid">
-              View work
-            </Link>
-            <Link href="/contact" className="btn-pill">
-              Contact
-            </Link>
-          </div>
-        </div>
-        <div className="home-portrait rise rise-delay-1">
-          <Image
-            src={site.heroImage}
-            alt={site.name}
-            width={1080}
-            height={1350}
-            priority
-          />
+      <section className="agency-hero">
+        <div className="agency-hero-inner">
+          <h1 className="brand rise">{site.name}</h1>
+          <p className="line rise rise-delay-1">{site.line}</p>
+          <a href="#work" className="scroll-hint rise rise-delay-2">
+            Scroll for work
+          </a>
         </div>
       </section>
 
-      <div className="client-strip" aria-label="Selected brands">
-        <p>Selected brands</p>
-        <ul>
-          {marquee.map((client, index) => (
-            <li key={`${client}-${index}`}>{client}</li>
-          ))}
-        </ul>
-      </div>
-
-      <section className="see-work">
-        <video
-          className="see-work-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/images/see-the-work-poster.jpg"
-        >
-          <source src="/videos/portfolio-splash.mp4" type="video/mp4" />
-        </video>
-        <div className="see-work-overlay">
-          <h2>See the work</h2>
-          <Link href="/portfolio" className="btn-pill btn-pill-light">
-            Open portfolio
-          </Link>
+      <section className="work-section" id="work">
+        <div className="work-section-head">
+          <h2>Work</h2>
+          <p>{site.role}</p>
         </div>
+        <WorkGrid />
       </section>
 
       <Connect />

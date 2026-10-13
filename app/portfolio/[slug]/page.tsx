@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProjectInfo } from "@/components/project-info";
 import { VideoEmbed } from "@/components/video-embed";
 import {
   getAdjacentProjects,
@@ -27,13 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: project.title };
 }
 
-function gridClass(videos: ProjectVideo[]) {
-  if (videos.length === 0) return "work-grid-landscape";
-  const avg =
-    videos.reduce((sum, v) => sum + v.aspect, 0) / Math.max(videos.length, 1);
-  if (avg < 0.95) return "work-grid-vertical";
-  if (avg <= 1.15) return "work-grid-square";
-  return "work-grid-landscape";
+function chunkByAspect(videos: ProjectVideo[]) {
+  const landscape = videos.filter((v) => v.aspect > 1.2);
+  const rest = videos.filter((v) => v.aspect <= 1.2);
+  return { landscape, rest };
 }
 
 export default async function ProjectPage({ params }: Props) {
@@ -42,67 +40,106 @@ export default async function ProjectPage({ params }: Props) {
   if (!project) notFound();
 
   const { prev, next } = getAdjacentProjects(slug);
-  const videoGrid = gridClass(project.videos);
-  const galleryGrid =
-    project.gallery.length > 2 ? "work-grid-square" : "work-grid-landscape";
+  const { landscape, rest } = chunkByAspect(project.videos);
+  const hero = landscape[0] ?? rest[0];
+  const remainingVideos = hero
+    ? [...landscape, ...rest].filter((v) => v.src !== hero.src)
+    : [];
+
+  const verticalish = remainingVideos.filter((v) => v.aspect <= 1.05);
+  const wide = remainingVideos.filter((v) => v.aspect > 1.05);
 
   return (
     <main className="project-page">
-      <div className="project-layout">
-        <aside className="project-rail">
-          {project.role && <p className="role">{project.role}</p>}
-          <h1>{project.title}</h1>
-          {project.headline && project.headline !== "Selected work" && (
-            <p className="headline">{project.headline}</p>
-          )}
-          {project.summary && <p className="summary">{project.summary}</p>}
-          {project.focus && project.focus.length > 0 && (
-            <div className="focus-tags">
-              {project.focus.map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-          )}
-          <nav className="project-nav" aria-label="Project pagination">
-            <Link href="/portfolio">← All work</Link>
-            {prev && <Link href={`/portfolio/${prev.slug}`}>Prev: {prev.title}</Link>}
-            {next && <Link href={`/portfolio/${next.slug}`}>Next: {next.title}</Link>}
-          </nav>
-        </aside>
+      <ProjectInfo project={project} />
 
-        <div className="project-stage">
-          {project.videos.length > 0 && (
-            <div className={`work-grid ${videoGrid}`}>
-              {project.videos.map((video, index) => (
-                <div key={`${video.src}-${index}`} className="work-item">
-                  <VideoEmbed
-                    src={video.src}
-                    type={video.type}
-                    aspect={video.aspect}
-                    title={`${project.title} ${index + 1}`}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+      <div className="project-media">
+        {hero && (
+          <div className="media-hero media-cell">
+            <VideoEmbed
+              src={hero.src}
+              type={hero.type}
+              aspect={hero.aspect}
+              title={`${project.title} hero`}
+            />
+          </div>
+        )}
 
-          {project.gallery.length > 0 && (
-            <div className={`work-grid ${galleryGrid}`}>
-              {project.gallery.map((src) => (
-                <div key={src} className="work-item">
-                  <Image
-                    src={src}
-                    alt=""
-                    width={1200}
-                    height={1200}
-                    sizes="(max-width: 900px) 100vw, 40vw"
-                  />
-                </div>
-              ))}
+        {wide.map((video, index) => (
+          <div key={`wide-${video.src}`} className="media-row media-row-1">
+            <div className="media-cell">
+              <VideoEmbed
+                src={video.src}
+                type={video.type}
+                aspect={video.aspect}
+                title={`${project.title} ${index + 2}`}
+              />
             </div>
+          </div>
+        ))}
+
+        {verticalish.length > 0 && (
+          <div
+            className={`media-row ${
+              verticalish.length >= 3
+                ? "media-row-3"
+                : verticalish.length === 2
+                  ? "media-row-2"
+                  : "media-row-1"
+            }`}
+          >
+            {verticalish.map((video, index) => (
+              <div key={video.src} className="media-cell">
+                <VideoEmbed
+                  src={video.src}
+                  type={video.type}
+                  aspect={video.aspect}
+                  title={`${project.title} clip ${index + 1}`}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {project.gallery.length > 0 && (
+          <div
+            className={`media-row ${
+              project.gallery.length >= 3
+                ? "media-row-3"
+                : project.gallery.length === 2
+                  ? "media-row-2"
+                  : "media-row-1"
+            }`}
+          >
+            {project.gallery.map((src) => (
+              <div key={src} className="media-cell">
+                <Image
+                  src={src}
+                  alt=""
+                  width={1200}
+                  height={1200}
+                  sizes="(max-width: 800px) 100vw, 33vw"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <nav className="project-next" aria-label="Project pagination">
+        <div>
+          {prev ? (
+            <Link href={`/portfolio/${prev.slug}`}>← {prev.title}</Link>
+          ) : (
+            <Link href="/portfolio">← Work</Link>
           )}
         </div>
-      </div>
+        <div>
+          {next ? (
+            <Link href={`/portfolio/${next.slug}`}>{next.title} →</Link>
+          ) : null}
+        </div>
+      </nav>
     </main>
   );
 }

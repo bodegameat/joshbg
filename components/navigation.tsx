@@ -5,32 +5,35 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { site } from "@/lib/content";
 
-const links = [
-  { name: "Work", href: "/portfolio" },
-  { name: "Contact", href: "/contact" },
-];
-
 export function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const onHero = pathname === "/" || pathname === "/contact";
+
   return (
-    <header className="site-header">
+    <header className={`site-header ${onHero ? "site-header-on-hero" : ""}`}>
       <div className="site-header-inner">
+        <nav className="site-nav desktop-nav" aria-label="Main">
+          <Link
+            href="/portfolio"
+            className={pathname.startsWith("/portfolio") ? "active" : undefined}
+          >
+            Work
+          </Link>
+        </nav>
+
         <Link href="/" className="site-title" onClick={() => setOpen(false)}>
           {site.name}
         </Link>
 
-        <nav className="site-nav desktop-nav" aria-label="Main">
-          {links.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={pathname.startsWith(item.href) ? "active" : undefined}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </nav>
+        <div className="site-nav-spacer desktop-nav">
+          <Link
+            href="/contact"
+            className={pathname === "/contact" ? "active" : undefined}
+          >
+            Contact
+          </Link>
+        </div>
 
         <button
           type="button"
@@ -47,16 +50,20 @@ export function Navigation() {
 
       {open && (
         <nav className="mobile-nav" aria-label="Mobile">
-          {links.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className={pathname.startsWith(item.href) ? "active" : undefined}
-            >
-              {item.name}
-            </Link>
-          ))}
+          <Link
+            href="/portfolio"
+            onClick={() => setOpen(false)}
+            className={pathname.startsWith("/portfolio") ? "active" : undefined}
+          >
+            Work
+          </Link>
+          <Link
+            href="/contact"
+            onClick={() => setOpen(false)}
+            className={pathname === "/contact" ? "active" : undefined}
+          >
+            Contact
+          </Link>
         </nav>
       )}
     </header>

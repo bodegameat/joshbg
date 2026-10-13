@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Outfit, Syne } from "next/font/google";
+import { Raleway } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
 import { site } from "@/lib/content";
 
-const outfit = Outfit({
+const raleway = Raleway({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const syne = Syne({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["200", "300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${outfit.variable} ${syne.variable} antialiased`}>
+    <html lang="en" className={`${raleway.variable} antialiased`}>
       <body>
         <Navigation />
         {children}
