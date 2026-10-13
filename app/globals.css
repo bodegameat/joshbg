@@ -43,22 +43,22 @@
   --secondary-foreground: #000000;
   --muted: #f0f1f2;
   --muted-foreground: #5c5c5c;
-  --accent: #a8a49b;
+  --accent: #019fff;
   --accent-foreground: #ffffff;
   --destructive: #c0392b;
   --border: #e5e5e5;
   --input: #e5e5e5;
-  --ring: #a8a49b;
+  --ring: #019fff;
   --radius: 0.25rem;
 
   --page-pad: 4vw;
   --max-width: 1800px;
   --header-h: 5.5rem;
-  --taupe: #a8a49b;
+  --cyan: #019fff;
   --ink: #000000;
   --paper: #ffffff;
   --soft: #dee0e2;
-  --charcoal: #38383a;
+  --charcoal: #000000;
 }
 
 @layer base {
@@ -172,11 +172,42 @@
   }
 }
 
+/* ========== Buttons ========== */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 0.85rem 1.75rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-pill:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-pill-light {
+  color: white;
+  border-color: white;
+  margin-top: 1.25rem;
+}
+
+.btn-pill-light:hover {
+  background: white;
+  color: black;
+}
+
 /* ========== Home ========== */
 .home-hero {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
   padding: calc(var(--header-h) + 2rem) var(--page-pad) 4rem;
@@ -185,11 +216,15 @@
 }
 
 .home-copy h1 {
-  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
   font-weight: 500;
   line-height: 1.45;
   letter-spacing: -0.01em;
-  max-width: 28ch;
+  max-width: 34ch;
+}
+
+.home-copy .accent {
+  color: var(--cyan);
 }
 
 .home-portrait {
@@ -199,7 +234,7 @@
 }
 
 .home-portrait img {
-  width: min(52vw, 520px);
+  width: min(42vw, 480px);
   max-width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
@@ -207,39 +242,67 @@
 }
 
 .see-work {
-  background: var(--charcoal);
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
   color: white;
   text-align: center;
-  padding: clamp(4rem, 10vw, 7rem) var(--page-pad);
 }
 
-.see-work a {
-  display: inline-block;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+.see-work-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.see-work-overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem var(--page-pad);
+  background: rgba(0, 0, 0, 0.15);
+  width: 100%;
+  min-height: 85vh;
+  justify-content: center;
+}
+
+.see-work-overlay h2 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  transition: opacity 0.2s ease;
-}
-
-.see-work a:hover {
-  opacity: 0.75;
 }
 
 .connect-section {
-  max-width: 720px;
-  margin: 0 auto;
+  background: #000;
+  color: #fff;
   padding: clamp(4rem, 10vw, 7rem) var(--page-pad);
+}
+
+.connect-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
 }
 
 .connect-section h2 {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 600;
-  text-align: center;
-  margin-bottom: 2.5rem;
+  margin: 0;
 }
 
 .accordion-item {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .accordion-trigger {
@@ -255,6 +318,7 @@
   font-weight: 500;
   cursor: pointer;
   text-align: left;
+  color: inherit;
 }
 
 .accordion-icon {
@@ -266,10 +330,11 @@
 .accordion-panel {
   padding: 0 0 1.25rem;
   font-size: 1rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.75);
 }
 
-.accordion-panel a {
+.accordion-panel a:hover {
+  color: #fff;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -285,11 +350,11 @@
     max-width: none;
     margin: 0 auto;
   }
-  .home-portrait {
-    order: -1;
-  }
   .home-portrait img {
     width: min(70vw, 320px);
+  }
+  .connect-inner {
+    grid-template-columns: 1fr;
   }
 }
 
